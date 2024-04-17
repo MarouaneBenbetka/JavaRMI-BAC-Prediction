@@ -1,6 +1,7 @@
 package app.bacgradesprediction.models;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,13 @@ public class StudentRecord {
         this.grade1 = grade1;
         this.grade2 = grade2;
         this.grade3 = grade3;
+        this.bac = bac;
+    }
+
+    public StudentRecord( ArrayList<Float> grades, float bac) {
+        this.grade1 = grades.get(0);
+        this.grade2 = grades.get(1);
+        this.grade3 = grades.get(2);
         this.bac = bac;
     }
 
