@@ -13,14 +13,31 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import java.io.FileInputStream;
 import java.util.Iterator;
+import org.apache.commons.io.FilenameUtils;
 
+public class TabularDataReader {
 
-public class ReadTabularData {
-    public List<StudentRecord> readCSV(String filePath) {
+    private final List<String> excelExtensions = Arrays.asList("xlsx", "xlx", "xls") ;
+    private final List<String> csvExtensions = Arrays.asList("csv", "txt") ;
+
+    public List<StudentRecord> readTabularData(String filepath) throws Exception {
+        String extension = FilenameUtils.getExtension(filepath);
+
+        if (excelExtensions.contains(extension))
+            return readExcel(filepath);
+
+        if (csvExtensions.contains(extension))
+            return readCSV(filepath);
+
+        throw new Exception("Extension not valid.");
+
+    };
+    private List<StudentRecord> readCSV(String filePath) {
         List<StudentRecord> records = new ArrayList<>();
         try (CSVParser parser = new CSVParser(new FileReader(filePath), CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
             for (CSVRecord record : parser) {
@@ -36,7 +53,7 @@ public class ReadTabularData {
         return records;
     }
 
-    public List<StudentRecord> readExcel(String filePath) {
+    private List<StudentRecord> readExcel(String filePath) {
         List<StudentRecord> records = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream(filePath);
              Workbook workbook = new XSSFWorkbook(fis)) {

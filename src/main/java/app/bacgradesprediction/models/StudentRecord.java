@@ -1,6 +1,12 @@
 package app.bacgradesprediction.models;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static app.bacgradesprediction.models.Constants.*;
+
+
 public class StudentRecord {
     private float grade1;
     private float grade2;
@@ -16,6 +22,15 @@ public class StudentRecord {
 
     @Override
     public String toString() {
-        return String.format("{ S1: %f, S2: %f, S3: %f, BAC: %f}",grade1,grade2,grade3,bac)  ;
+        return String.format("{ %s: %f, %s: %f, %s: %f, %s: %f}",TRIMESTRE_ONE,grade1,TRIMESTRE_TWO,grade2,TRIMESTRE_THREE,grade3,BAC,bac)  ;
     }
+
+    public Map<String,Float> toMap(){
+        return new HashMap<>() {{
+            put(TRIMESTRE_ONE,grade1);
+            put(TRIMESTRE_TWO,grade2);
+            put(TRIMESTRE_THREE,grade3);
+            put(BAC,bac);
+        }};
+    };
 }

@@ -1,6 +1,6 @@
 package app.bacgradesprediction;
 import app.bacgradesprediction.models.StudentRecord;
-import app.bacgradesprediction.utils.ExcelFileReader;
+import app.bacgradesprediction.utils.TabularDataReader;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -16,7 +16,7 @@ public class TrainingPage extends VBox {
     private Label fileNameLabel, warningLabel;
     private FileChooser fileChooser;
     private File selectedFile;
-    private ExcelFileReader excelReader = new ExcelFileReader();
+    private TabularDataReader tabularDataReader = new TabularDataReader();
     public List<StudentRecord> studentRecords ;
 
     public TrainingPage() {
@@ -75,7 +75,12 @@ public class TrainingPage extends VBox {
                 System.out.println(selectedFile.getPath());
 
 
-                studentRecords = excelReader.readExcel(selectedFile.getPath()) ;
+                try {
+                    studentRecords = tabularDataReader.readTabularData(selectedFile.getPath()) ;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
                 System.out.println(studentRecords);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Training Complete");
