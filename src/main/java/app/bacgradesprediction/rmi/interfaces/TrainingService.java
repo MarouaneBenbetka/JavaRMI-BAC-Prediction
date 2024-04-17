@@ -1,15 +1,9 @@
-package app.bacgradesprediction.rmi;
-
-
+package app.bacgradesprediction.rmi.interfaces;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
 public interface TrainingService extends Remote {
-
-    Map<String, ?> launchTraining(List<Map<String, ?>> records) throws RemoteException;
-
+    Map<String, ?> launchTraining() throws Exception;
 }
-

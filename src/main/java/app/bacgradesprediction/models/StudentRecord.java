@@ -1,6 +1,7 @@
 package app.bacgradesprediction.models;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
 import static app.bacgradesprediction.models.Constants.*;
 
 
-public class StudentRecord {
+public class StudentRecord implements Serializable {
     private float grade1;
     private float grade2;
     private float grade3;
@@ -33,12 +34,13 @@ public class StudentRecord {
         return String.format("{ %s: %f, %s: %f, %s: %f, %s: %f}",TRIMESTRE_ONE,grade1,TRIMESTRE_TWO,grade2,TRIMESTRE_THREE,grade3,BAC,bac)  ;
     }
 
-    public Map<String,Float> toMap(){
-        return new HashMap<>() {{
-            put(TRIMESTRE_ONE,grade1);
-            put(TRIMESTRE_TWO,grade2);
-            put(TRIMESTRE_THREE,grade3);
-            put(BAC,bac);
-        }};
+    public Map<String,?> toMapTransformation(){
+        Map<String, Float> record = new HashMap<>();
+        record.put(TRIMESTRE_ONE,grade1);
+        record.put(TRIMESTRE_TWO,grade2);
+        record.put(TRIMESTRE_THREE,grade3);
+        record.put(BAC,bac);
+
+        return record;
     };
 }

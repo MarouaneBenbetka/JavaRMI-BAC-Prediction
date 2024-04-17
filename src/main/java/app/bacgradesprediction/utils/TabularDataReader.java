@@ -21,25 +21,48 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
 
 public class TabularDataReader {
-
+    public List<StudentRecord> studentRecords ;
     private final List<String> excelExtensions = Arrays.asList("xlsx", "xlx", "xls") ;
     private final List<String> csvExtensions = Arrays.asList("csv", "txt") ;
 
-    public List<StudentRecord> readTabularData(String filepath) throws Exception {
+    public void readTabularData(String filepath) throws Exception {
         String extension = FilenameUtils.getExtension(filepath);
 
-        if (excelExtensions.contains(extension))
-            return readExcel(filepath);
+        if (excelExtensions.contains(extension)) {
+            this.studentRecords = readExcel(filepath);
+            return;
+        }
 
-        if (csvExtensions.contains(extension))
-            return readCSV(filepath);
+        if (csvExtensions.contains(extension)) {
+            this.studentRecords = readCSV(filepath);
+            return;
+        }
+
+
 
         throw new Exception("Extension not valid.");
 
     };
 
-    public List<Map<String,?>> records2Maps(List<StudentRecord> studentRecords){
-        return studentRecords.stream().map(StudentRecord::toMap).collect(Collectors.toList());
+    public List<Map<String,?>> records2Maps(){
+        if (this.studentRecords == null) {
+            return Collections.emptyList();  // Return an empty list instead of null
+        }
+
+
+        List<Map<String, ?>> maps = new ArrayList<>();
+        for (StudentRecord record : studentRecords) {
+            if (record != null) {
+                Map<String, ?> map = record.toMapTransformation();
+                System.out.println(map.getClass().getName());
+                if (map != null) {
+                    maps.add(map);
+                } else {
+                    maps.add(Collections.emptyMap()); // Add an empty map for null map returns
+                }
+            }
+        }
+        return maps;
     }
 
     private List<StudentRecord> readCSV(String filePath) {

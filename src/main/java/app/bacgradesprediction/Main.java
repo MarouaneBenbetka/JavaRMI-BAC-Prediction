@@ -12,18 +12,22 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         TabPane tabPane = new TabPane();
 
-        Tab trainingTab = new Tab("Training");
-        trainingTab.setContent(new TrainingPage());
-        trainingTab.setClosable(false);
+        Tab dataUploadTab = new Tab("Data Upload");
+        dataUploadTab.setContent(new DataUploadPage());
+        dataUploadTab.setClosable(false);
 
         Tab predictingTab = new Tab("Predicting");
         predictingTab.setContent(new PredictPage());
         predictingTab.setClosable(false);
 
-        tabPane.getTabs().addAll(trainingTab, predictingTab);
+        Tab trainingTab = new Tab("Training");
+        trainingTab.setContent(new TrainingPage());
+        trainingTab.setClosable(false);
+
+        tabPane.getTabs().addAll(dataUploadTab,trainingTab, predictingTab);
 
         Scene scene = new Scene(tabPane, 800, 600);
-        primaryStage.setTitle("JavaFX Project");
+        primaryStage.setTitle("BAC PREDICTIONS");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

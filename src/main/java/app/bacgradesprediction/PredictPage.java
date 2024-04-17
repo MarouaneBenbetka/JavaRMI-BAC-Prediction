@@ -1,15 +1,20 @@
 package app.bacgradesprediction;
 
-
+import app.bacgradesprediction.rmi.Connection;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
+import java.util.Map;
+
+import static app.bacgradesprediction.utils.Config.HOSTNAME;
+import static app.bacgradesprediction.utils.Config.PORT;
 
 public class PredictPage extends VBox {
     private TextField grade1Input, grade2Input, grade3Input;
     private Button submitButton;
     private Label resultLabel;
+    private Map<String, ?> response;
 
     public PredictPage() {
         initUI();
@@ -42,8 +47,30 @@ public class PredictPage extends VBox {
     }
 
     private void submitGrades() {
-        // Assuming API call or validation logic goes here
-        resultLabel.setText("Predicted BAC mention: Excellent"); // Placeholder text
-        resultLabel.setVisible(true);
+        try {
+            float grade1 = Float.parseFloat(grade1Input.getText());
+            float grade2 = Float.parseFloat(grade2Input.getText());
+            float grade3 = Float.parseFloat(grade3Input.getText());
+
+            if (grade1 < 0 || grade1 > 20 || grade2 < 0 || grade2 > 20 || grade3 < 0 || grade3 > 20) {
+                resultLabel.setText("Grades must be between 0 and 20.");
+                resultLabel.setVisible(true);
+                return;
+            }
+
+            Connection connection = new Connection(HOSTNAME, PORT);
+            response = connection.predict(grade1, grade2, grade3);
+
+            String predictedBAC = (String) response.get("BACMention");
+            resultLabel.setText(String.format("Predicted BAC mention: %s", predictedBAC));
+            resultLabel.setVisible(true);
+        } catch (NumberFormatException e) {
+            resultLabel.setText("Please enter valid numeric grades.");
+            resultLabel.setVisible(true);
+        } catch (Exception e) {
+            resultLabel.setText("Error connecting to server. Please try again.");
+            resultLabel.setVisible(true);
+            e.printStackTrace();
+        }
     }
 }
