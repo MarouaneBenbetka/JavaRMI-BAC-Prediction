@@ -12,7 +12,7 @@ The project is divided into two main components:
 
 ## Prerequisites
 
--   Java JDK 8 or above
+-   Java JDK 17 or above
 -   Apache Maven (for dependency management and building the project)
 
 ## Setup
