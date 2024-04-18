@@ -13,7 +13,7 @@ public class Server {
     private static DecisionTreeModel model = new DecisionTreeModel();
     public static void main(String[] args) {
         try {
-            Registry registry = LocateRegistry.createRegistry(48);
+            Registry registry = LocateRegistry.createRegistry(446);
             TrainingService trainingService = new TrainingServiceImpl(model);
 
             PredictionService predictionService = new PredictionServiceImpl(model);
